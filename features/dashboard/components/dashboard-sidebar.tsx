@@ -33,7 +33,7 @@ export function DashboardSidebar({ user, plan = "Free" }: DashboardSidebarProps)
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
-              tooltip="ChaiCodeAIReview"
+              tooltip="RepoMindsAI"
               render={
                 <Link href={DASHBOARD_ROUTES.overview}>
                   <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-none bg-sidebar">

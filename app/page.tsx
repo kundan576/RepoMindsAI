@@ -60,7 +60,7 @@ export default function Home() {
 
         {/* Description */}
         <p className="mt-8 max-w-2xl text-lg leading-8 text-[#8D8D97]">
-          RepoMindAI reads every diff the moment it lands, flags the bugs and
+          RepoMindsAI reads every diff the moment it lands, flags the bugs and
           smells worth flagging, and leaves the kind of comment a senior
           engineer would — so your team merges with confidence, not hope.
         </p>

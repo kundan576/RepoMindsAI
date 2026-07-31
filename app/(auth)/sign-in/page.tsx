@@ -17,7 +17,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Sign in",
-  description: "Sign in to Chai AI Code Reviewer with your GitHub account.",
+  description: "RepoMindsAI Code Reviewer with your GitHub account.",
 };
 
 type SignInPageProps = {

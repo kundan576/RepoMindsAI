@@ -19,7 +19,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2.5">
           <Image
             src="/logo9.svg"
-            alt="RepoMindAI"
+            alt="RepoMindsAI"
             width={28}
             height={28}
             className="h-35 w-35"
