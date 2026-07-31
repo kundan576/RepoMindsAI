@@ -1,134 +1,320 @@
-# Chai AI Code Reviewer
+# RepoMindsAI
 
-<p align="center">
-  <img src="./public/93506170-1cba-4fd5-b466-a1348ad9bd3a.png" alt="Chai AI Code Reviewer — AI Reviews Your PRs" width="100%" />
-</p>
-
-An AI-powered GitHub pull request reviewer that automatically analyzes code changes and posts actionable review comments on your PRs. Connect your GitHub App, and every opened, updated, or reopened pull request gets a structured markdown review — no manual sync required.
+AI-powered GitHub Pull Request Review Platform that automatically analyzes code changes, understands repository context using vector search, and posts intelligent review comments directly on GitHub.
 
 ## Description
 
-Chai AI Code Reviewer is a full-stack SaaS app built with Next.js. It listens for GitHub pull request webhooks, fetches the PR diff, uses vector search to find the most relevant code chunks, and generates a review with the Vercel AI SDK and OpenRouter. Reviews are posted back to GitHub as PR comments.
+RepoMindsAI is a full-stack AI-powered SaaS application built with Next.js. It listens for GitHub Pull Request webhooks, retrieves changed files, finds relevant repository context using Pinecone vector search, and generates AI-powered code reviews using Groq's Llama 3.3 model through the Vercel AI SDK.
 
-Optionally, you can sync an entire repository into Pinecone for richer context — for example, how changed code relates to other files outside the diff. PR reviews work without syncing; repo sync is an enhancement for deeper, cross-file feedback.
+Every Pull Request review is automatically:
 
-The dashboard lets you connect GitHub, browse repositories, track review history, monitor usage, and manage a Free or Pro subscription.
+- Generated using AI
+- Posted as a GitHub PR comment
+- Stored in the database
+- Displayed in the dashboard
+- Sent as an email notification
 
-## Features
+Repositories can also be synchronized into Pinecone to provide repository-wide context, allowing the AI to understand code beyond the changed files.
 
-- **Automatic PR reviews** — Reviews run on `opened`, `synchronize`, and `reopened` PR events via GitHub webhooks
-- **AI-generated feedback** — Structured markdown reviews covering correctness, security, performance, reliability, readability, and maintainability
-- **GitHub App integration** — Install the app on your org or account to access repositories and post review comments
-- **Vector-based context** — PR diffs are chunked and indexed in Pinecone so the model focuses on the most relevant changes
-- **Optional repo sync** — Manually sync a repository’s codebase for extra context from files outside the PR diff
-- **Dashboard** — Overview stats, repository list, pull request history, and GitHub connection status
-- **Review activity tracking** — See recent reviews and their status (pending, processing, reviewed, rate-limited)
-- **Authentication** — Sign in with GitHub using Better Auth
-- **Subscription billing** — Free plan (5 reviews/month, public repos) and Pro plan (unlimited reviews, private repos) via Razorpay
-- **Background jobs** — Long-running sync and review tasks handled reliably with Inngest
-- **Dark mode** — Theme support across the dashboard UI
+The dashboard enables users to connect GitHub, browse repositories, monitor Pull Requests, view review history, manage subscriptions, and track AI usage.
 
-## Tech Stack & Tools
+---
 
-### Frontend
+# Features
 
-| Tool | Purpose |
-|------|---------|
-| [Next.js 16](https://nextjs.org/) | React framework (App Router) |
-| [React 19](https://react.dev/) | UI library |
-| [TypeScript](https://www.typescriptlang.org/) | Type-safe JavaScript |
-| [Tailwind CSS 4](https://tailwindcss.com/) | Utility-first styling |
-| [shadcn/ui](https://ui.shadcn.com/) | Accessible UI components |
-| [TanStack Query](https://tanstack.com/query) | Server state, caching, and mutations |
-| [Lucide React](https://lucide.dev/) | Icons |
-| [Streamdown](https://github.com/vercel/streamdown) | Markdown rendering for AI reviews |
-| [Recharts](https://recharts.org/) | Dashboard charts |
-| [next-themes](https://github.com/pacocoursey/next-themes) | Dark / light mode |
+- Automatic Pull Request Reviews
+- AI-generated code reviews
+- GitHub App integration
+- GitHub OAuth authentication
+- Semantic code search using Pinecone
+- Repository synchronization
+- Automatic GitHub PR comments
+- Review history dashboard
+- Email notifications
+- Background processing with Inngest
+- Free & Pro subscription plans
+- Dark mode support
+- Responsive dashboard
 
-### Backend & Data
+---
 
-| Tool | Purpose |
-|------|---------|
-| [PostgreSQL](https://www.postgresql.org/) | Primary database |
-| [Prisma 7](https://www.prisma.io/) | ORM and migrations |
-| [Better Auth](https://www.better-auth.com/) | GitHub OAuth and session management |
-| [Inngest](https://www.inngest.com/) | Background jobs (PR reviews, repo sync) |
+# Tech Stack
 
-### AI & Search
+## Frontend
 
-| Tool | Purpose |
-|------|---------|
-| [Vercel AI SDK](https://sdk.vercel.ai/) | LLM integration (`generateText`) |
-| [OpenRouter](https://openrouter.ai/) | AI model provider |
-| [Pinecone](https://www.pinecone.io/) | Vector database for code chunk retrieval |
+| Technology | Purpose |
+|------------|---------|
+| Next.js 16 | React Framework |
+| React 19 | UI Library |
+| TypeScript | Type-safe JavaScript |
+| Tailwind CSS | Styling |
+| shadcn/ui | UI Components |
+| TanStack Query | Data Fetching |
+| Lucide React | Icons |
+| Recharts | Charts |
+| Streamdown | Markdown Rendering |
+| next-themes | Dark Mode |
 
-### GitHub & Payments
+---
 
-| Tool | Purpose |
-|------|---------|
-| [Octokit](https://github.com/octokit/octokit.js) | GitHub App API (PR files, repo contents, comments) |
-| [GitHub App + Webhooks](https://docs.github.com/en/apps) | PR events and repository access |
-| [Razorpay](https://razorpay.com/) | Subscriptions and billing webhooks |
+## Backend
 
-### Dev Tools
+| Technology | Purpose |
+|------------|---------|
+| PostgreSQL | Database |
+| Prisma ORM | Database ORM |
+| Better Auth | Authentication |
+| Inngest | Background Jobs |
 
-| Tool | Purpose |
-|------|---------|
-| [ESLint](https://eslint.org/) | Linting |
-| [Inngest CLI](https://www.inngest.com/docs/dev-server) | Local background job dev server |
+---
 
-## Getting Started
+## AI & Search
 
-### Prerequisites
+| Technology | Purpose |
+|------------|---------|
+| Vercel AI SDK | AI Integration |
+| Groq (Llama 3.3 70B Versatile) | AI Model |
+| Pinecone | Vector Database |
 
-- Node.js 20+
-- PostgreSQL database
-- GitHub OAuth App + GitHub App
-- Pinecone index (integrated embeddings: `llama-text-embed-v2`, field map `text=text`)
-- OpenRouter API key
-- Razorpay account (for subscriptions)
+---
 
-### Environment
+## GitHub Integration
 
-Copy `.env.example` to `.env` and fill in your credentials:
+| Technology | Purpose |
+|------------|---------|
+| GitHub App | Repository Access |
+| GitHub Webhooks | Pull Request Events |
+| Octokit | GitHub API |
 
-```bash
-cp .env.example .env
+---
+
+## Payments
+
+| Technology | Purpose |
+|------------|---------|
+| Razorpay | Subscription Billing |
+
+---
+
+## Project Workflow
+
+```text
+GitHub Pull Request
+        │
+        ▼
+GitHub Webhook
+        │
+        ▼
+Inngest Background Function
+        │
+        ▼
+Fetch Pull Request Files
+        │
+        ▼
+Chunk Code
+        │
+        ▼
+Pinecone Vector Search
+        │
+        ▼
+Groq AI Review
+        │
+        ▼
+Save Review
+        │
+        ▼
+GitHub PR Comment
+        │
+        ▼
+Dashboard + Email Notification
 ```
 
-### Install & run
+---
+
+# Screenshots
+
+## Landing Page
+
+_Add Screenshot_
+
+## Dashboard
+
+_Add Screenshot_
+
+## Repository List
+
+_Add Screenshot_
+
+## Pull Request Review
+
+_Add Screenshot_
+
+## GitHub Comment
+
+_Add Screenshot_
+
+## Email Notification
+
+_Add Screenshot_
+
+---
+
+# Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/kundan576/RepoMindsAI.git
+```
+
+Move into the project
+
+```bash
+cd RepoMindsAI
+```
+
+Install dependencies
 
 ```bash
 npm install
+```
+
+Configure environment variables
+
+```env
+DATABASE_URL=
+
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+GITHUB_APP_ID=
+GITHUB_PRIVATE_KEY=
+GITHUB_WEBHOOK_SECRET=
+
+PINECONE_API_KEY=
+PINECONE_INDEX=
+
+GROQ_API_KEY=
+
+RAZORPAY_KEY_ID=
+RAZORPAY_KEY_SECRET=
+RAZORPAY_WEBHOOK_SECRET=
+
+INNGEST_EVENT_KEY=
+INNGEST_SIGNING_KEY=
+```
+
+Run database migrations
+
+```bash
 npx prisma migrate dev
+```
+
+Start the development server
+
+```bash
 npm run dev
 ```
 
-For background jobs locally, run the Inngest dev server in a separate terminal:
+Run Inngest
 
 ```bash
 npx inngest-cli@latest dev
 ```
 
-Set `INNGEST_DEV=1` in your `.env` when using the local Inngest dev server.
+---
 
-Open [http://localhost:3000](http://localhost:3000), sign in with GitHub, connect the GitHub App, and open a pull request on a connected repository to trigger your first AI review.
+# Project Structure
 
-## Project Structure
-
-```
-app/                    # Next.js routes and API endpoints
+```text
+app/
+│
+├── (auth)
+├── (protected)
+├── api
+│
+components/
+│
 features/
-  billing/              # Razorpay subscriptions and usage limits
-  dashboard/            # Dashboard shell and navigation
-  github/               # GitHub App, webhooks, installations
-  overview/             # Dashboard overview and activity
-  pull-requests/        # PR list and review display
-  repo-sync/            # Optional full-repo indexing
-  reviews/              # PR review pipeline (Inngest + AI)
-components/             # Shared UI components
-lib/                    # Auth, DB, server actions
-prisma/                 # Schema and migrations
+├── billing
+├── dashboard
+├── github
+├── overview
+├── pull-requests
+├── repo-sync
+├── reviews
+├── settings
+│
+lib/
+│
+prisma/
+│
+public/
 ```
+
+---
+
+# Upcoming Features
+
+- Inline GitHub review comments
+- AI-generated code fixes
+- Multi-model AI support
+- Review score
+- Severity badges
+- Repository analytics
+- Team collaboration
+- Organization support
+
+---
+
+# Contributing
+
+Contributions are welcome.
+
+1. Fork the repository
+2. Create a feature branch
+
+```bash
+git checkout -b feature-name
+```
+
+3. Commit your changes
+
+```bash
+git commit -m "Add new feature"
+```
+
+4. Push to GitHub
+
+```bash
+git push origin feature-name
+```
+
+5. Open a Pull Request
+
+---
+
+# License
+
+This project is licensed under the MIT License.
+
+---
+
+# Author
+
+**Kundan Kumar**
+
+GitHub: https://github.com/kundan576
+
+
+
+---
+
+# Support
+
+If you found this project useful, please consider giving it a ⭐ on GitHub.
 
 
