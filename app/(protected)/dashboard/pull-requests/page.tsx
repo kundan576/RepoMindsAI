@@ -1,9 +1,4 @@
-/**
- * Pull requests list page (`/dashboard/pull-requests`).
- *
- * Groups AI-reviewed PRs by repository. Requires a GitHub App installation;
- * otherwise shows a prompt to connect GitHub first.
- */
+
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -20,11 +15,7 @@ export const metadata: Metadata = {
   title: "Pull Requests · Dashboard",
 };
 
-/**
- * Empty state when GitHub App is not installed.
- *
- * @returns Centered message with link to GitHub App settings.
- */
+
 function PullRequestsNotConnected() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6">
@@ -38,11 +29,7 @@ function PullRequestsNotConnected() {
   );
 }
 
-/**
- * Pull requests index — all PRs grouped by repo for the user's installation.
- *
- * @returns Header plus list or connect prompt.
- */
+
 export default async function DashboardPullRequestsPage() {
   const session = await requireAuth();
   const installationId = await getUserInstallationId(session.user.id);

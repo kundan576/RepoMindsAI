@@ -1,9 +1,4 @@
-/**
- * Dashboard Overview page (`/dashboard`).
- *
- * Server component that loads aggregated overview data and renders stat cards
- * plus recent AI review activity.
- */
+
 
 import type { Metadata } from "next";
 
@@ -16,11 +11,7 @@ export const metadata: Metadata = {
   title: "Overview · Dashboard",
 };
 
-/**
- * Default dashboard landing page with summary stats and activity feed.
- *
- * @returns Overview header and content for the signed-in user.
- */
+
 export default async function DashboardOverviewPage() {
   const session = await requireAuth();
   const overview = await getOverview(session.user.id);

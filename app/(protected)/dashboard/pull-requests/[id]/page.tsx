@@ -1,9 +1,4 @@
-/**
- * Single pull request detail page (`/dashboard/pull-requests/[id]`).
- *
- * Shows PR metadata, links to GitHub, and the full AI review markdown.
- * Returns 404 when the PR does not exist or belongs to another installation.
- */
+
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -37,13 +32,7 @@ export const metadata: Metadata = {
   title: "Pull Request Review · Dashboard",
 };
 
-/**
- * Renders the AI review section based on status and available comment text.
- *
- * @param review - Markdown review comment or null if not ready.
- * @param status - PR lifecycle status (rate_limited shows upgrade message).
- * @returns Placeholder text or `AiReviewMarkdown` component.
- */
+
 function ReviewBody({
   review,
   status,
@@ -72,12 +61,7 @@ function ReviewBody({
   return <AiReviewMarkdown review={review} />;
 }
 
-/**
- * Pull request detail view with metadata and AI review card.
- *
- * @param params - Async route params containing the PR database `id`.
- * @returns Full detail page or `notFound()` when unauthorized/missing.
- */
+
 export default async function PullRequestDetailPage({
   params,
 }: {

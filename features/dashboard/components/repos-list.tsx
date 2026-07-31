@@ -1,10 +1,4 @@
-/**
- * Interactive repositories table with infinite scroll.
- *
- * Fetches pages from `/api/github/repos` via TanStack Query, supports
- * filtering by visibility and client-side search, and shows codebase sync
- * status per row. Uses Intersection Observer to load more pages automatically.
- */
+
 
 "use client";
 
@@ -28,16 +22,10 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-/** Tab filter values matching repository visibility or "all". */
+
 type RepoFilter = "all" | "public" | "private";
 
-/**
- * Returns whether a repo passes the visibility tab filter.
- *
- * @param repo - Repository row to test.
- * @param filter - Active tab: all, public, or private.
- * @returns `true` if the repo should appear under the current filter.
- */
+
 function doesRepoMatchFilter(
   repo: DashboardRepo,
   filter: RepoFilter
@@ -49,36 +37,20 @@ function doesRepoMatchFilter(
   return repo.visibility === filter;
 }
 
-/**
- * Case-insensitive substring match against `repo.fullName`.
- *
- * @param repo - Repository row to test.
- * @param search - User-typed search string.
- * @returns `true` if the repo name contains the search query.
- */
+
 function doesRepoMatchSearch(repo: DashboardRepo, search: string): boolean {
   const query = search.toLowerCase();
   return repo.fullName.toLowerCase().includes(query);
 }
 
-/**
- * Sorts repos by `updatedAt` descending (most recently updated first).
- *
- * @param repos - Unsorted repository array.
- * @returns A new sorted array (does not mutate the input).
- */
+
 function sortByLatestUpdated(repos: DashboardRepo[]): DashboardRepo[] {
   return [...repos].sort((a, b) => {
     return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
   });
 }
 
-/**
- * Maps visibility to badge color: blue for public, amber for private.
- *
- * @param visibility - `"public"` or `"private"`.
- * @returns Badge tone key for `statusBadge()`.
- */
+
 function getVisibilityBadgeTone(
   visibility: DashboardRepo["visibility"]
 ): "info" | "warning" {
@@ -89,12 +61,7 @@ function getVisibilityBadgeTone(
   return "warning";
 }
 
-/**
- * Small lock/unlock icon matching repository visibility.
- *
- * @param visibility - `"public"` or `"private"`.
- * @returns Lucide icon component.
- */
+
 function VisibilityIcon({ visibility }: { visibility: DashboardRepo["visibility"] }) {
   if (visibility === "private") {
     return <LockIcon className="size-3" />;
@@ -103,14 +70,7 @@ function VisibilityIcon({ visibility }: { visibility: DashboardRepo["visibility"
   return <UnlockIcon className="size-3" />;
 }
 
-/**
- * Renders table body rows for loading, error, empty, or data states.
- *
- * @param showLoading - True on initial fetch before any data exists.
- * @param isError - True when the infinite query failed.
- * @param repos - Filtered repos to render as rows.
- * @returns Table rows or a single spanning status row.
- */
+
 function ReposTableBody({
   showLoading,
   isError,
@@ -159,15 +119,7 @@ function ReposTableBody({
   );
 }
 
-/**
- * Footer text below the table describing pagination progress.
- *
- * @param isFetchingNextPage - True while the next page request is in flight.
- * @param hasNextPage - Whether more pages exist on the server.
- * @param loadedCount - Number of repos loaded so far across all pages.
- * @param totalCount - Total repos reported by the API on page 1.
- * @returns Human-readable load status or null when nothing to show.
- */
+
 function LoadMoreMessage({
   isFetchingNextPage,
   hasNextPage,
@@ -198,15 +150,11 @@ function LoadMoreMessage({
   return null;
 }
 
-/**
- * Main repositories list with tabs, search, table, and infinite scroll.
- *
- * @returns The full repositories page body (client component).
- */
+
 export function ReposList() {
   const [filter, setFilter] = useState<RepoFilter>("all");
   const [search, setSearch] = useState("");
-  // Sentinel element observed to trigger loading the next page
+
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -218,7 +166,6 @@ export function ReposList() {
     isError,
   } = useInfiniteQuery(githubReposInfiniteQuery);
 
-  // Distinguish initial load from background refetches
   const showLoading = isPending && !data;
 
   const repos = useMemo(() => {
@@ -226,7 +173,6 @@ export function ReposList() {
       return [];
     }
 
-    // Flatten all loaded pages into one array, then sort client-side
     const loadedRepos = data.pages.flatMap((page) => page.repos);
     return sortByLatestUpdated(loadedRepos);
   }, [data]);
@@ -241,7 +187,6 @@ export function ReposList() {
     });
   }, [repos, filter, search]);
 
-  // Tab counts: "all" uses API total; public/private count loaded repos only
   const counts = {
     all: totalCount,
     public: repos.filter((repo) => repo.visibility === "public").length,
@@ -255,7 +200,6 @@ export function ReposList() {
       return;
     }
 
-    // Start loading the next page when the sentinel nears the viewport
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
@@ -328,12 +272,7 @@ export function ReposList() {
   );
 }
 
-/**
- * Single row in the repositories table.
- *
- * @param repo - Repository data including sync status for the codebase column.
- * @returns A `<TableRow>` with all repository columns.
- */
+
 function RepoRow({ repo }: { repo: DashboardRepo }) {
   const badgeTone = getVisibilityBadgeTone(repo.visibility);
   const language = repo.language ?? "—";

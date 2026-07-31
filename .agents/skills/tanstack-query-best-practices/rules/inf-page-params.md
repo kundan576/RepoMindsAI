@@ -1,4 +1,4 @@
-# inf-page-params: Always Provide getNextPageParam for Infinite Queries
+npm install -D eslint-plugin-eslint-comments# inf-page-params: Always Provide getNextPageParam for Infinite Queries
 
 ## Priority: MEDIUM
 

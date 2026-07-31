@@ -1,11 +1,4 @@
-/**
- * Reads a user's subscription plan and status from the database.
- *
- * Razorpay webhooks update raw fields (`plan`, `subscriptionStatus`, `subscriptionRenewsAt`).
- * This module translates those into a clean `UserSubscription` object for the UI.
- *
- * @module features/billing/server/subscription
- */
+
 
 import "server-only";
 
@@ -15,7 +8,7 @@ import type {
 } from "@/features/dashboard/lib/types";
 import { prisma } from "@/lib/db";
 
-/** Normalizes the string stored in Prisma to our `SubscriptionPlan` union. */
+
 function getPlanFromDb(plan: string): SubscriptionPlan {
   if (plan === "pro") {
     return "pro";
@@ -23,12 +16,7 @@ function getPlanFromDb(plan: string): SubscriptionPlan {
   return "free";
 }
 
-/**
- * Maps database subscription fields to a user-facing status.
- *
- * Pro users who canceled but are still inside the paid period stay `active`
- * until `subscriptionRenewsAt` passes — they keep Pro features until then.
- */
+
 function getStatusFromDb(
   plan: SubscriptionPlan,
   subscriptionStatus: string | null,
@@ -56,7 +44,7 @@ function getStatusFromDb(
   return "canceled";
 }
 
-/** Pro features only apply when plan is pro AND status is still active. */
+
 function getEffectivePlan(
   plan: SubscriptionPlan,
   status: UserSubscription["status"]
@@ -68,12 +56,7 @@ function getEffectivePlan(
   return "free";
 }
 
-/**
- * Loads the current subscription snapshot for a user.
- *
- * @param userId - The user whose plan and renewal date we need.
- * @returns `UserSubscription` with effective plan, status, and optional `renewsAt` ISO string.
- */
+
 export async function getUserSubscription(
   userId: string
 ): Promise<UserSubscription> {

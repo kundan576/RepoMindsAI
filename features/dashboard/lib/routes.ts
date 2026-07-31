@@ -1,11 +1,6 @@
-/**
- * Central route definitions and navigation config for the dashboard.
- *
- * Using a single source of truth for paths prevents typos and makes it easy
- * to rename routes — update here and every link/nav item follows automatically.
- */
 
-/** All dashboard page URLs. The `as const` makes values literal types for type safety. */
+
+
 export const DASHBOARD_ROUTES = {
   overview: "/dashboard",
   repos: "/dashboard/repos",
@@ -14,14 +9,11 @@ export const DASHBOARD_ROUTES = {
   settings: "/dashboard/settings",
 } as const;
 
-/** Union of every valid dashboard path string. */
+
 export type DashboardRoute =
   (typeof DASHBOARD_ROUTES)[keyof typeof DASHBOARD_ROUTES];
 
-/**
- * Sidebar navigation items — title, href, and icon key.
- * Icons are resolved in `dashboard-nav.tsx` via the `NAV_ICONS` map.
- */
+
 export const DASHBOARD_NAV_ITEMS = [
   {
     title: "Overview",

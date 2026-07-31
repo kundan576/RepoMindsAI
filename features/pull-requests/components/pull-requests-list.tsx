@@ -1,9 +1,4 @@
-/**
- * Pull requests list UI grouped by repository.
- *
- * Each repo gets a card containing its PRs with status badges, metadata,
- * and an expandable AI review section. Links out to GitHub and to local detail pages.
- */
+
 
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
@@ -34,33 +29,17 @@ import {
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-/**
- * Builds the canonical GitHub URL for a pull request.
- *
- * @param repoFullName - `owner/repo` slug.
- * @param prNumber - GitHub PR number.
- * @returns Full HTTPS URL to the PR on github.com.
- */
+
 function buildPrUrl(repoFullName: string, prNumber: number) {
   return `https://github.com/${repoFullName}/pull/${prNumber}`;
 }
 
-/**
- * Builds the canonical GitHub URL for a repository.
- *
- * @param repoFullName - `owner/repo` slug.
- * @returns Full HTTPS URL to the repo on github.com.
- */
+
 function buildRepoUrl(repoFullName: string) {
   return `https://github.com/${repoFullName}`;
 }
 
-/**
- * Shows author, target branch, and how long ago the PR was opened.
- *
- * @param pullRequest - PR item with author and branch fields.
- * @returns A row of muted metadata chips.
- */
+
 function PullRequestMeta({ pullRequest }: { pullRequest: PullRequestItem }) {
   const openedAgo = formatDistanceToNow(new Date(pullRequest.createdAt), {
     addSuffix: true,
@@ -81,12 +60,7 @@ function PullRequestMeta({ pullRequest }: { pullRequest: PullRequestItem }) {
   );
 }
 
-/**
- * Collapsible section for the AI review markdown, or a placeholder message.
- *
- * @param pullRequest - PR item including status and optional review text.
- * @returns Accordion with review content, rate-limit notice, or waiting message.
- */
+
 function AiReviewAccordion({ pullRequest }: { pullRequest: PullRequestItem }) {
   if (pullRequest.status === "rate_limited") {
     return (
@@ -123,13 +97,7 @@ function AiReviewAccordion({ pullRequest }: { pullRequest: PullRequestItem }) {
   );
 }
 
-/**
- * Single pull request row inside a repo card.
- *
- * @param repoFullName - Parent repository slug for GitHub links.
- * @param pullRequest - PR data to display.
- * @returns A bordered row with title, links, status, meta, and review accordion.
- */
+
 function PullRequestRow({
   repoFullName,
   pullRequest,
@@ -167,12 +135,7 @@ function PullRequestRow({
   );
 }
 
-/**
- * Card wrapping all pull requests for one repository.
- *
- * @param repo - Repo full name and its pull request items.
- * @returns A card with header (repo link) and PR rows in the body.
- */
+
 function RepoCard({ repo }: { repo: RepoPullRequests }) {
   const prCount = repo.pullRequests.length;
   const prLabel = prCount === 1 ? "pull request" : "pull requests";
@@ -209,11 +172,7 @@ function RepoCard({ repo }: { repo: RepoPullRequests }) {
   );
 }
 
-/**
- * Empty state when no pull requests exist yet for the installation.
- *
- * @returns Centered illustration and guidance text.
- */
+
 function NoPullRequestsYet() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center">
@@ -228,12 +187,7 @@ function NoPullRequestsYet() {
   );
 }
 
-/**
- * Top-level list component: one card per repo, or empty state.
- *
- * @param repos - Pull requests grouped by repository from the server loader.
- * @returns The full pull requests page body content.
- */
+
 export function PullRequestsList({ repos }: { repos: RepoPullRequests[] }) {
   if (repos.length === 0) {
     return <NoPullRequestsYet />;

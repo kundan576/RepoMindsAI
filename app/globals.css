@@ -7,6 +7,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
