@@ -1,7 +1,7 @@
 import { generateText } from "ai";
 import { groq } from "@/lib/groq";
 
-groq("llama-3.3-70b-versatile")
+groq("openai/gpt-oss-120b")
 
 const SYSTEM_PROMPT = `You are an expert code reviewer with deep knowledge of software engineering best practices, security, and performance optimization.
 
@@ -69,7 +69,7 @@ export async function generateReview(input: ReviewInput) {
   );
 
   const { text } = await generateText({
-    model: groq("llama-3.3-70b-versatile"),
+    model: groq("openai/gpt-oss-120b"),
     system: SYSTEM_PROMPT,
     prompt: `Repository: ${input.repoFullName}
 Pull request title: ${input.title}
